@@ -35,5 +35,10 @@ char *_strdup(char *str);
 int _strlen(char *s);
 int _putchar(char c);
 ssize_t else_handle_input(char *lineptr, int stream, char *input, int filled);
+int setenv_builtin(char **tokens);
+int unsetenv_builtin(char **tokens);
+int cd_builtin(char **tokens);
+char **get_builtins();
+int env_builtin(void);
 ssize_t _getline(char *lineptr, int stream);
 #endif /* SHELL_H */
