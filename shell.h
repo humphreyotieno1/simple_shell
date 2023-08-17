@@ -34,5 +34,6 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_strdup(char *str);
 int _strlen(char *s);
 int _putchar(char c);
-
+ssize_t else_handle_input(char *lineptr, int stream, char *input, int filled);
+ssize_t _getline(char *lineptr, int stream);
 #endif /* SHELL_H */
