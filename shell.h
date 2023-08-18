@@ -41,4 +41,6 @@ int cd_builtin(char **tokens);
 char **get_builtins();
 int env_builtin(void);
 ssize_t _getline(char *lineptr, int stream);
+void execmd(char **argv);
+char *get_location(char *command);
 #endif /* SHELL_H */
