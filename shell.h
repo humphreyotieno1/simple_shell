@@ -27,6 +27,8 @@ typedef struct list
 	struct list *next;
 } list_t;
 
+void free_argv(char **argv);
+int tokenize_input(char *input, char ***argv_ptr);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 char *_strcpy(char *dest, char *src);
@@ -49,6 +51,6 @@ char *get_env_val(const char *variable_name);
 ssize_t _getline(char *lineptr, int stream);
 int has_newline(const char *str);
 void shiftbuffer(char *buffer, int start, int filled);
-void execmd(char **argv);
+void execute_command(char **argv);
 char *get_location(char *command);
 #endif /* SHELL_H */
