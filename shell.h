@@ -40,7 +40,15 @@ int unsetenv_builtin(char **tokens);
 int cd_builtin(char **tokens);
 char **get_builtins();
 int env_builtin(void);
+void *do_mem(size_t size, void *ptr);
+char **get_env(void);
+void free_double_array(char **array);
+void my_error(const char *command, int error_code, const char *additional_info);
+void do_env(const char *new_variable, const char *old_variable);
+char *get_env_val(const char *variable_name);
 ssize_t _getline(char *lineptr, int stream);
+int has_newline(const char *str);
+void shiftbuffer(char *buffer, int start, int filled);
 void execmd(char **argv);
 char *get_location(char *command);
 #endif /* SHELL_H */
