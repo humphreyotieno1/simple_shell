@@ -1,7 +1,4 @@
 #include "shell.h"
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
 
 /**
  * execute_command - function to execute the command in the specified argv
@@ -132,10 +129,10 @@ void handle_builtin_command(char **argv)
 }
 
 /**
- * main - entry point of the shell command line
- * Return: 0
+ * prompt_shell - main loop for shell prompt
  */
-int main(void)
+
+void prompt_shell(void)
 {
 	char *prompt = "(Shell) $ ";
 
@@ -175,6 +172,16 @@ int main(void)
 	}
 	/*Free memory for lineptr*/
 	free(lineptr);
+}
+
+/**
+ * main - call prompt_shell function
+ * Return: 0
+ */
+
+int main(void)
+{
+	prompt_shell();
 	return (0);
 }
 
