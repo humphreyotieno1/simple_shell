@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <signal.h>
+#include <stdbool.h>
 
 /**
  * struct list - singly linked list

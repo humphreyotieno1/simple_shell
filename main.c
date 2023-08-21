@@ -108,6 +108,30 @@ int is_builtin_command(const char *command)
 }
 
 /**
+ * handle_builtin_command - handle execution of builtin commands
+ * @argv: array of strongs containing arguments
+ */
+
+void handle_builtin_command(char **argv)
+{
+	if (strcmp(argv[0], "cd") == 0)
+	{
+		if (argv[1] == NULL)
+		{
+			fprintf(stderr, "Usage: cd <directory>\n");
+		}
+		else if (chdir(argv[1]) != 0)
+		{
+			perror("cd");
+		}
+		else if (strcmp(argv[0], "exit") == 0)
+		{
+			exit(0);
+		}
+	}
+}
+
+/**
  * main - entry point of the shell command line
  * Return: 0
  */

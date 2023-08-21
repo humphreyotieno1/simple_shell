@@ -4,6 +4,7 @@
   * get_builtins - list of builtin commands
   * Return: double pointer holding list of commands
   */
+
 char **get_builtins()
 {
 	char **builtins;
@@ -24,6 +25,7 @@ char **get_builtins()
  * env_builtin - Lists environment
  *  Return: 0 if successfull
  */
+ 
 int env_builtin(void)
 {
 	char **env;
@@ -47,6 +49,7 @@ int env_builtin(void)
  * @tokens: the tokens for the command
  * Return: the return code
  */
+ 
 int setenv_builtin(char **tokens)
 {
 	char *ret = NULL;
@@ -72,6 +75,7 @@ int setenv_builtin(char **tokens)
  * @tokens: the tokens for the command
  * Return: the return code
  */
+ 
 int unsetenv_builtin(char **tokens)
 {
 
@@ -91,6 +95,7 @@ int unsetenv_builtin(char **tokens)
  * @tokens: command input into prompt tokenized
  * Return: the exit status
  */
+ 
 int cd_builtin(char **tokens)
 {
 	char *HOME = NULL, *templd;
