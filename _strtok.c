@@ -12,6 +12,8 @@ void _free(char **list, int count)
 	do_mem(0, list);
 }
 
+int word_count(char *str, char *delim);
+
 /**
  * _strtok - split a string into a double char pointer
  * @str: the string to split

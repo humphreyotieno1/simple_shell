@@ -1,4 +1,7 @@
 #include "shell.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
 /**
  * execute_command - function to execute the command in the specified argv
@@ -94,6 +97,17 @@ void free_argv(char **argv)
 }
 
 /**
+ * is_builtin_command - check if a command is builtin
+ * @command: command to check
+ * Return: 1 if builtin, otherwise 0
+ */
+
+int is_builtin_command(const char *command)
+{
+	return (strcmp(command, "cd") == 0 || strcmp(command, "exit") == 0);
+}
+
+/**
  * main - entry point of the shell command line
  * Return: 0
  */
@@ -104,11 +118,8 @@ int main(void)
 	char *lineptr = NULL;
 
 	size_t n = 0;
-
 	ssize_t nchars_read;
-
 	char *lineptr_copy = NULL;
-
 	char **argv = NULL;
 
 	int num_tokens = 0;
@@ -123,9 +134,7 @@ int main(void)
 			break; /*Exit the loop instead of returning -1*/
 		}
 		lineptr_copy = strdup(lineptr);
-
 		num_tokens = tokenize_input(lineptr_copy, &argv);
-
 		if (num_tokens > 0)
 		{
 			if (is_builtin_command(argv[0]))
@@ -136,6 +145,7 @@ int main(void)
 			{
 				execute_command(argv);
 			}
+		}
 		free(argv);
 		free(lineptr_copy);
 	}

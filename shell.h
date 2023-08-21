@@ -43,6 +43,7 @@ int cd_builtin(char **tokens);
 char **get_builtins();
 int env_builtin(void);
 void handle_builtin_command(char **argv);
+int is_builtin_command(const char *command);
 void *do_mem(size_t size, void *ptr);
 char **get_env(void);
 void free_double_array(char **array);
