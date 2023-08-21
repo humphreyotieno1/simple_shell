@@ -128,8 +128,14 @@ int main(void)
 
 		if (num_tokens > 0)
 		{
-			execute_command(argv);
-		}
+			if (is_builtin_command(argv[0]))
+			{
+				handle_builtin_command(argv);
+			}
+			else
+			{
+				execute_command(argv);
+			}
 		free(argv);
 		free(lineptr_copy);
 	}
