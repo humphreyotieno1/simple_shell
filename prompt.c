@@ -30,20 +30,16 @@ void prompt_shell(void)
 			{
 				char **env_ptr = environ;
 
-				while(*env_ptr != NULL)
+				while (*env_ptr != NULL)
 				{
 					printf("%s\n", *env_ptr);
 					env_ptr++;
 				}
 			}
 			else if (is_builtin_command(argv[0]))
-			{
 				handle_builtin_command(argv);
-			}
 			else
-			{
 				execute_command(argv);
-			}
 		}
 		free(argv);
 		free(lineptr_copy);
