@@ -47,6 +47,7 @@ void execute_command(char **argv)
  * Return: 1 if builtin, otherwise 0
  */
 
+
 int is_builtin_command(const char *command)
 {
 	return (strcmp(command, "cd") == 0 || strcmp(command, "exit") == 0);
@@ -56,6 +57,7 @@ int is_builtin_command(const char *command)
  * handle_builtin_command - handle execution of builtin commands
  * @argv: array of strongs containing arguments
  */
+ 
 
 void handle_builtin_command(char **argv)
 {
