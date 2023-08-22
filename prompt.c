@@ -11,7 +11,7 @@ void prompt_shell(void)
 	ssize_t nchars_read;
 	char **argv = NULL;
 	int num_tokens = 0;
-
+	char *lineptr_copy;
 	while (1)
 	{
 		printf("(Shell) $ ");
@@ -21,7 +21,7 @@ void prompt_shell(void)
 			printf("Exiting shell....\n");
 			break; /*Exit the loop instead of returning -1*/
 		}
-		char *lineptr_copy = strdup(lineptr);
+		lineptr_copy = strdup(lineptr);
 
 		num_tokens = tokenize_input(lineptr_copy, &argv);
 		if (num_tokens > 0)
