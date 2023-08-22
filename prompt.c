@@ -6,24 +6,22 @@
 
 void prompt_shell(void)
 {
-	char *prompt = "(Shell) $ ";
 	char *lineptr = NULL;
 	size_t n = 0;
 	ssize_t nchars_read;
-	char *lineptr_copy = NULL;
 	char **argv = NULL;
 	int num_tokens = 0;
 
 	while (1)
 	{
-		printf("%s", prompt);
+		printf("(Shell) $ ");
 		nchars_read = getline(&lineptr, &n, stdin);
 		if (nchars_read == -1)
 		{
 			printf("Exiting shell....\n");
 			break; /*Exit the loop instead of returning -1*/
 		}
-		lineptr_copy = strdup(lineptr);
+		char *lineptr_copy = strdup(lineptr);
 		num_tokens = tokenize_input(lineptr_copy, &argv);
 		if (num_tokens > 0)
 		{

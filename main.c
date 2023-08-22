@@ -10,4 +10,3 @@ int main(void)
 	prompt_shell();
 	return (0);
 }
-

@@ -35,7 +35,7 @@ void execute_command(char **argv)
 		}
 		else
 		{
-			perror("Child process exited abnormally");
+			perror("Child process exited");
 		}
 	}
 }
