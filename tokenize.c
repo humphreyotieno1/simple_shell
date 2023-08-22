@@ -39,7 +39,7 @@ int tokenize_input(char *input, char ***argv_ptr)
 /**
  * free_argv - free memory allocated for array of arguments
  * @argv: array of strings containing arguments to be freed
- */
+ *
 void free_argv(char **argv)
 {
 	int i;
@@ -49,4 +49,4 @@ void free_argv(char **argv)
 		free(argv[i]);
 	}
 	free(argv);
-}
+}*/
