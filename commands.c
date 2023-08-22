@@ -1,4 +1,7 @@
 #include "shell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 /**
  * execute_command - function to execute the command in the specified argv
@@ -7,36 +10,45 @@
 
 void execute_command(char **argv)
 {
-	pid_t pid;
-	int status;
+	char *command = argv[0];
 
-	pid = fork();
-	if (pid < 0)
+	if (access(command, X_OK) == 0)
 	{
-		perror("Fork error");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		char *command = argv[0];
+		pid_t pid;
+		int status;
 
-		execve(command, argv, NULL);
-		perror("Exec error");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
+		pid = fork();
+		if (pid < 0)
 		{
-			int exit_status = WEXITSTATUS(status);
+			perror("Fork error");
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
+		{
+			char *command = argv[0];
 
-			printf("Child process exited with status %d\n", exit_status);
+			execve(command, argv, environ);
+			perror("Command not found");
+			exit(EXIT_FAILURE);
 		}
 		else
 		{
-			perror("Child process exited");
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+			{
+				int exit_status = WEXITSTATUS(status);
+
+				printf("Child process exited with status %d\n", exit_status);
+			}
+			else
+			{
+				perror("Child process exited");
+			}
 		}
+	}
+	else
+	{
+		fprintf(stderr, "Command not found: %s\n", command);
 	}
 }
 
@@ -57,7 +69,6 @@ int is_builtin_command(const char *command)
  * handle_builtin_command - handle execution of builtin commands
  * @argv: array of strongs containing arguments
  */
- 
 
 void handle_builtin_command(char **argv)
 {
@@ -68,13 +79,13 @@ void handle_builtin_command(char **argv)
 			fprintf(stderr, "Usage: cd <directory>\n");
 		}
 		else if (chdir(argv[1]) != 0)
-		{
 			perror("cd");
-		}
 		else if (strcmp(argv[0], "exit") == 0)
 		{
 			exit(0);
 		}
+		else
+			fprintf(stderr, "Unkown command: %s\n", argv[0]);
 	}
 }
 

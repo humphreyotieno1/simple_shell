@@ -28,6 +28,7 @@ typedef struct list
 	struct list *next;
 } list_t;
 
+extern char **environ;
 void free_argv(char **argv);
 int tokenize_input(char *input, char ***argv_ptr);
 char *_strcat(char *dest, char *src);

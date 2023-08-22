@@ -22,10 +22,21 @@ void prompt_shell(void)
 			break; /*Exit the loop instead of returning -1*/
 		}
 		char *lineptr_copy = strdup(lineptr);
+
 		num_tokens = tokenize_input(lineptr_copy, &argv);
 		if (num_tokens > 0)
 		{
-			if (is_builtin_command(argv[0]))
+			if (strcmp(argv[0], "env") == 0)
+			{
+				char **env_ptr = environ;
+
+				while(*env_ptr != NULL)
+				{
+					printf("%s\n", *env_ptr);
+					env_ptr++;
+				}
+			}
+			else if (is_builtin_command(argv[0]))
 			{
 				handle_builtin_command(argv);
 			}
