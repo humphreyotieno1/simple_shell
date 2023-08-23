@@ -54,7 +54,7 @@ void do_env(const char *new_variable, const char *old_variable);
 char *get_env_val(const char *variable_name);
 ssize_t _getline(char *lineptr, int stream);
 int has_newline(const char *str);
-void shiftbuffer(char *buffer, int start, int filled);
+void shiftbuffer(char *buffer, int start, int length);
 void execute_command(char **argv);
 char *get_location(char *command);
 #endif /* SHELL_H */
