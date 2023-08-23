@@ -13,12 +13,40 @@ void _free(char **list, int count)
 }
 
 /**
+ * word_count - count number of words in a string
+ * @str: string with words
+ * @delim: delimiter char
+ * Return: number of words
+ */
+
+size_t word_count(const char *str,const char *delim)
+{
+	size_t count = 0;
+	int in_word = 0;
+
+	while (*str != '\0')
+	{
+		if (strchr(delim, *str) != NULL)
+		{
+			in_word = 0;
+		}
+		else if(!in_word)
+		{
+			in_word = 1;
+			count++;
+		}
+		str++;
+	}
+	return (count);
+}
+
+/**
  * _strtok - split a string into a double char pointer
  * @str: the string to split
  * @delim: any characters to split the string by
  * Return: the double char pointer
  */
-char **_strtok(char *str, char *delim)
+char **_strtok(char *str,const char *delim)
 {
 	int i = 0, j = 0, d = 0, len = 0, count = 0, check = 0;
 	char **list = NULL;
