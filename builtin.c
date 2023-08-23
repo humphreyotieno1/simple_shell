@@ -8,7 +8,7 @@ char **get_builtins()
 {
 	char **builtins;
 
-	builtins = do_mem(sizeof(char *) * 6, NULL);
+	builtins = (char **)do_mem(sizeof(char *) * 6, 0);
 
 	builtins[0] = "exit";
 	builtins[1] = "cd";
@@ -26,10 +26,10 @@ char **get_builtins()
  */
 int env_builtin(void)
 {
-	char **env;
-	int i = 0, len = 0;
+	char **env = get_env();
+	int i = 0;
+	int len = 0;
 
-	env = get_env();
 	while (env[i])
 	{
 		len = _strlen(env[i]);
@@ -58,7 +58,7 @@ int setenv_builtin(char **tokens)
 	}
 	do_env(NULL, tokens[1]);
 
-	ret = do_mem(_strlen(tokens[1]) + _strlen(tokens[2]) + 2, NULL);
+	ret = do_mem(_strlen(tokens[1]) + _strlen(tokens[2]) + 2, 0);
 	_strcat(ret, tokens[1]);
 	_strcat(ret, "=");
 	_strcat(ret, tokens[2]);
@@ -93,13 +93,12 @@ int unsetenv_builtin(char **tokens)
  */
 int cd_builtin(char **tokens)
 {
-	char *HOME = NULL, *templd;
+	char *templd;
 	static char *lastdir;
 
-	(void)HOME;
 	if (!lastdir)
-		lastdir = do_mem(100, NULL);
-	templd = do_mem(100, NULL);
+		lastdir = do_mem(100, 0);
+	templd = do_mem(100, 0);
 	if (tokens[1] && _strcmp(tokens[1], "-") == 0)
 	{
 		/* go to previous directory */

@@ -7,7 +7,6 @@
 void prompt_shell(void)
 {
 	char lineptr[4096];
-	/*size_t n = 0;*/
 	ssize_t nchars_read;
 	char **argv = NULL;
 	int num_tokens = 0;
@@ -28,7 +27,6 @@ void prompt_shell(void)
 			break; /*Exit the loop instead of returning -1*/
 		}
 		lineptr_copy = strdup(lineptr);
-
 		num_tokens = tokenize_input(lineptr_copy, &argv);
 		if (num_tokens > 0)
 		{

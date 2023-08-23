@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * has_newline - checks a give string to determine 
+ * has_newline - checks a give string to determine
  * if it is a newline character
  * @str: pointer to the string to be checked
  * Return: -1 if no newline character is found
@@ -54,7 +54,7 @@ ssize_t else_handle_input(char *lineptr, int stream, char *input, int filled)
 {
 	int red;
 	char tmp;
-	
+
 	/* if the buffer is full then read until \n or EOF */
 	if (filled == 4096)
 	{
@@ -92,7 +92,7 @@ ssize_t _getline(char *lineptr, int stream)
 	static int filled;
 	int newline_index = -1, i = 0, red = 0;
 	ssize_t ret = 0;
-	
+
 	/* if the buffer is empty, fill it */
 	if (!filled)
 	{

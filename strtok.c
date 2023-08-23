@@ -8,8 +8,8 @@
 void _free(char **list, int count)
 {
 	for (; count >= 0; count--)
-		do_mem(0, list[count]);
-	do_mem(0, list);
+		free(list[count]);
+	free(list);
 }
 
 /**
@@ -26,7 +26,7 @@ char **_strtok(char *str, char *delim)
 	/* get count of words, if no words return NULL */
 	while (!(count = word_count(str, delim)))
 		return (NULL);
-	list = do_mem((count + 1) * sizeof(char *), NULL);
+	list = do_mem((count + 1) * sizeof(char *), 0);
 	if (!list)
 		return (NULL);
 	/* tokenize str to individual words inside a double pointer*/
@@ -39,7 +39,7 @@ char **_strtok(char *str, char *delim)
 				check += 1;
 				if (len)
 				{
-					list[count] = do_mem(sizeof(char) * (len + 1), NULL);
+					list[count] = do_mem(sizeof(char) * (len + 1), 0);
 					if (!list[count])
 					{
 						_free(list, count);
