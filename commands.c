@@ -1,8 +1,4 @@
 #include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 /**
  * execute_command - function to execute the command in the specified argv
  * @argv: array of strings containing commands and arguments
