@@ -6,17 +6,23 @@
 
 void prompt_shell(void)
 {
-	char *lineptr = NULL;
-	size_t n = 0;
+	char lineptr[4096];
+	/*size_t n = 0;*/
 	ssize_t nchars_read;
 	char **argv = NULL;
 	int num_tokens = 0;
 	char *lineptr_copy;
+
 	while (1)
 	{
 		printf("(Shell) $ ");
-		nchars_read = getline(&lineptr, &n, stdin);
+		nchars_read = _getline(lineptr, STDIN_FILENO);
 		if (nchars_read == -1)
+		{
+			fprintf(stderr, "Error reading input\n");
+			continue;
+		}
+		if (nchars_read == 0)
 		{
 			printf("Exiting shell....\n");
 			break; /*Exit the loop instead of returning -1*/
@@ -44,5 +50,4 @@ void prompt_shell(void)
 		free(argv);
 		free(lineptr_copy);
 	}
-	free(lineptr);
 }
