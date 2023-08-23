@@ -8,5 +8,6 @@
 int main(void)
 {
 	prompt_shell();
+	my_putchar('\n');
 	return (0);
 }

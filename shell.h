@@ -37,7 +37,7 @@ char *_strcpy(char *dest, char *src);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_strdup(char *str);
 int _strlen(char *s);
-int _putchar(char c);
+void my_putchar(char c);
 ssize_t else_handle_input(char *lineptr, int stream, char *input, int filled);
 int setenv_builtin(char **tokens);
 int unsetenv_builtin(char **tokens);

@@ -1,5 +1,5 @@
 #include "shell.h"
-#include <unistd.h>
+#include <errno.h>
 
 /**
  *  _putchar - writes the character c to stdout
@@ -8,7 +8,12 @@
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _putchar(char c)
+void my_putchar(char c)
 {
-	return (write(1, &c, 1));
+	if (putchar(c) == EOF)
+	{
+		fprintf(stderr, "Error printing character '%c': %s\n", c, strerror(errno));
+		exit(EXIT_FAILURE);
+	}
 }
+
