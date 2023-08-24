@@ -1,13 +1,18 @@
 #include "shell.h"
 
 /**
- * main - call prompt_shell function
- * Return: 0
+ * main - creates a simple shell
+ * @ac: argument count
+ * @av: argument vectors
+ * @env: environmental variables
+ * Return: 0 on success
  */
-
-int main(void)
+int main(int ac, char **av, char **env)
 {
-	prompt_shell();
-	my_putchar('\n');
+	(void)ac;
+	(void)av;
+
+	prompt(env);
+
 	return (0);
 }

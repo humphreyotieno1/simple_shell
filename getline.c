@@ -1,127 +1,45 @@
 #include "shell.h"
 
 /**
- * has_newline - checks a give string to determine
- * if it is a newline character
- * @str: pointer to the string to be checked
- * Return: -1 if no newline character is found
- * index if found
+ * get_line - stores into malloced buffer the user's command into shell
+ * @str: buffer
+ * Return: number of characters read
  */
-
-int has_newline(const char *str)
+size_t get_line(char **str)
 {
-	int index = 0;
+	ssize_t i = 0, size = 0, t = 0, t2 = 0, n = 0;
+	char buff[1024];
 
-	while (str[index] != '\0')
+	/* read while there's stdin greater than buffsize; -1 to add a '\0' */
+	while (t2 == 0 && (i = read(STDIN_FILENO, buff, 1024 - 1)))
 	{
-		if (str[index] == '\n')
-		{
-			return (index);
-		}
-		index++;
-	}
-	return (-1);
-}
-
-/**
- * shiftbuffer - shifts characters in buffer to left
- * @buffer: pointer to buffer whose characters are shifted
- * @start: index from which shifting begins
- * @length: number of characters to shift
- * Return: void
- */
-
-void shiftbuffer(char *buffer, int start, int length)
-{
-	int i;
-
-	for (i = 0; i < length - start; i++)
-	{
-		buffer[i] = buffer[start + i];
-	}
-	buffer[i] = '\0';
-}
-
-/**
- * else_handle_input - if buffer does not include \n or EOF
- * @lineptr: the buffer to put the data in
- * @stream: the stream to read from
- * @input: buffer
- * @filled: size of buffer
- * Return: _getline function
- */
-ssize_t else_handle_input(char *lineptr, int stream, char *input, int filled)
-{
-	int red;
-	char tmp;
-
-	/* if the buffer is full then read until \n or EOF */
-	if (filled == 4096)
-	{
-		/* should always fill buffer with \n or EOF at end*/
-		red = 1;
-		while (red && tmp != '\n')
-		{
-			tmp = 0;
-			red = read(stream, &tmp, 1);
-		}
-		input[4095] = '\n';
-		return (_getline(lineptr, stream));
-	}
-	/* if the buffer isn't full, then fill it and try again. */
-	else
-	{
-		red = read(stream, input + filled, 4096 - filled);
-		/* ctrl D was pressed if red is less */
-		if (red < (4096 - filled))
-			input[filled + red] = '\n';
-		filled = filled + red + 1;
-		return (_getline(lineptr, stream));
-	}
-}
-
-/**
- * _getline - reads a number of chars from stdin
- * @lineptr: the buffer to put the data in
- * @stream: the stream to read from
- * Return: the number of bytes read
- */
-ssize_t _getline(char *lineptr, int stream)
-{
-	static char input[4096];
-	static int filled;
-	int newline_index = -1, i = 0, red = 0;
-	ssize_t ret = 0;
-
-	/* if the buffer is empty, fill it */
-	if (!filled)
-	{
-		while ((red = read(stream, input, 4096)) < 0)
-		{
-			perror("Read Error\n");
+		if (i == -1) /* check if read errored */
 			return (-1);
-		}
-		filled = red;
-		if (!red)
-			return (0);
-	}
-	/* if the buffer contains \n or EOF */
-	newline_index = has_newline(input);
-	if (newline_index != -1)
 
-	{
-		for (i = 0; i <= newline_index; i++)
-			lineptr[i] = input[i];
-		ret = newline_index;
-		if (input[ret] == '\n')
-			ret = ret + 1;
-		/* Shift any remaining chars to the left */
-		shiftbuffer(input, newline_index + 1, filled);
-		filled = filled - ret;
-		return (ret);
+		buff[i] = '\0'; /* terminate buff with \0 to use with _strcat */
+
+		n = 0; /* last loop if \n is found in the stdin read */
+		while (buff[n] != '\0')
+		{
+			if (buff[n] == '\n')
+				t2 = 1;
+			n++;
+		}
+
+		/* copy what's read to buff into get_line's buffer */
+		if (t == 0) /* malloc the first time */
+		{
+			i++;
+			*str = malloc(sizeof(char) * i);
+			*str = _strcpy(*str, buff);
+			size = i;
+			t = 1;
+		}
+		else /* _realloc via _strcat with each loop */
+		{
+			size += i;
+			*str = _strcat(*str, buff);
+		}
 	}
-	/* if the buffer doesn't contain \n or EOF */
-	else
-		else_handle_input(lineptr, stream, input, filled);
-	return (-1);
+	return (size);
 }

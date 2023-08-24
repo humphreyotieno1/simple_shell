@@ -1,91 +1,70 @@
 #include "shell.h"
 
 /**
- * _free - free a double char pointer
- * @list: the double char pointer
- * @count: the number of single char pointers to free
+ * c_t_size - returns number of delim
+ * @str: user's command typed into shell
+ * @delm: delimeter (e.g. " ");
+ * Return: number of tokens
  */
-void _free(char **list, int count)
+int c_t_size(char *str, char delm)
 {
-	for (; count >= 0; count--)
-		free(list[count]);
-	free(list);
-}
+	int i = 0, num_delm = 0;
 
-/**
- * word_count - count number of words in a string
- * @str: string with words
- * @delim: delimiter char
- * Return: number of words
- */
-
-size_t word_count(const char *str,const char *delim)
-{
-	size_t count = 0;
-	int in_word = 0;
-
-	while (*str != '\0')
+	while (str[i] != '\0')
 	{
-		if (strchr(delim, *str) != NULL)
+		if (str[i] == delm)
 		{
-			in_word = 0;
+			num_delm++;
 		}
-		else if(!in_word)
-		{
-			in_word = 1;
-			count++;
-		}
-		str++;
+		i++;
 	}
-	return (count);
+	return (num_delm);
 }
 
+
 /**
- * _strtok - split a string into a double char pointer
- * @str: the string to split
- * @delim: any characters to split the string by
- * Return: the double char pointer
+ * c_str_tok - tokenizes a string even the continuous delim with empty string
+ * (e.g. path --> ":/bin::/bin/usr" )
+ * @str: user's command typed into shell
+ * @delm: delimeter (e.g. " ");
+ * Return: an array of tokens (e.g. {"\0", "/bin", "\0", "/bin/usr"}
+ * (purpose is to have which command look through current directory if ":")
  */
-char **_strtok(char *str,const char *delim)
+char **c_str_tok(char *str, char *delm)
 {
-	int i = 0, j = 0, d = 0, len = 0, count = 0, check = 0;
-	char **list = NULL;
+	int buffsize = 0, p = 0, si = 0, i = 0, len = 0, se = 0;
+	char **toks = NULL, d_ch;
 
-	/* get count of words, if no words return NULL */
-	while (!(count = word_count(str, delim)))
+	/* set variable to be delimeter character (" ") */
+	d_ch = delm[0];
+	/* malloc number of ptrs to store array of tokens, and NULL ptr */
+	buffsize = c_t_size(str, d_ch);
+	toks = malloc(sizeof(char *) * (buffsize + 2));
+	if (toks == NULL)
 		return (NULL);
-	list = do_mem((count + 1) * sizeof(char *), 0);
-	if (!list)
-		return (NULL);
-	/* tokenize str to individual words inside a double pointer*/
-	for (i = 0, len = 0, count = 0; str[i] || len;)
+
+	/* iterate from string index 0 to string ending index */
+	while (str[se] != '\0')
+		se++;
+	while (si < se)
 	{
-		for (d = 0, check = 0; delim[d]; d++)
+		/* malloc lengths for each token ptr in array */
+		len = t_strlen(str, si, d_ch);
+		toks[p] = malloc(sizeof(char) * (len + 1));
+		if (toks[p] == NULL)
+			return (NULL);
+		i = 0;
+		while ((str[si] != d_ch) &&
+		       (str[si] != '\0'))
 		{
-			if (((str[i] == delim[d]) || (!str[i])))
-			{
-				check += 1;
-				if (len)
-				{
-					list[count] = do_mem(sizeof(char) * (len + 1), 0);
-					if (!list[count])
-					{
-						_free(list, count);
-						return (NULL);
-					}
-					for (j = 0; len; len--, j++)
-						list[count][j] = str[i - len];
-					list[count][j] = '\0';
-					count++;
-				}
-			}
-
-		}
-		if (!check)
-			len++;
-		if (str[i])
+			toks[p][i] = str[si];
 			i++;
+			si++;
+		}
+		toks[p][i] = '\0'; /* null terminate at end*/
+		p++;
+		si++;
 	}
-	list[count] = NULL;
-	return (list);
+	toks[p] = NULL; /* set last array ptr to NULL */
+	return (toks);
 }
