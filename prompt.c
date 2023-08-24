@@ -103,7 +103,8 @@ int prompt(char **en)
 		else
 			non_interactive(env);
 		signal(SIGINT, ctrl_c); /* makes ctrl+c not work */
-		command = NULL; i = 0; /* reset vars each time loop runs */
+		command = NULL;
+		i = 0;
 		i = get_line(&command); /* read user's cmd in stdin */
 		ctrl_D(i, command, env); /* exits shell if ctrl-D */
 		n_command = command;
@@ -114,15 +115,17 @@ int prompt(char **en)
 		command[n] = '\0';
 		if (command[0] == '\0') /* reprompt if user hits enter only */
 		{
-			free(n_command); continue;
+			free(n_command);
+			continue;
 		}
-		token = NULL; token = _str_tok(command, " "); /*token user cmd*/
+		token = NULL;
+		token = _str_tok(command, " "); /*token user cmd*/
 		if (n_command != NULL)
 			free(n_command);
 		exit_stat = built_in(token, env, command_line_no, NULL);
 		if (exit_stat)
 			continue;
 		exit_stat = _execve(token, env, command_line_no);
-	} while (1); /* keep on repeating till user exits shell */
+	} while (1);
 	return (exit_stat);
 }
